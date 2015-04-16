@@ -13,7 +13,7 @@
 --引入各種函式庫
 --=======================================================================================
 display.setStatusBar( display.HiddenStatusBar )
-
+require("ioTools")
 local widget = require("widget")
 --=======================================================================================
 --宣告各種變數
@@ -34,8 +34,6 @@ local fileName = "record.txt"
 
 local initial
 local handleButtonEvent
-local saveFile
-local loadFile
 --=======================================================================================
 --宣告與定義main()函式
 --=======================================================================================
@@ -81,55 +79,15 @@ end
 handleButtonEvent = function ( event )
 	if ("ended" == event.phase) then
 		if ("btn1" == event.target.id) then
-			saveFile()
+			saveFile("江湖小蝦米的戰鬥力是" .. system.getTimer().."個")
 		elseif ("btn2" == event.target.id) then
-			loadFile()
+			label.text = loadFile()
 		end
 	end
 	
 end
 
-saveFile = function (  )
-	--從Document資料夾找尋指定檔案
-	local path = system.pathForFile( fileName, system.DocumentsDirectory )
-	--以唯讀模式開啟該路徑的檔案，目的是檢查剛路徑檔案是否存在
-	local fileHandle, errorString = io.open(path, "r")
-	if (fileHandle) then
-		print("檔案已存在")
-	else
-		print("發生的錯誤是" .. errorString)
-	end
-	--以寫入模式開啟該檔案，如果檔案已存在會覆蓋之前內容，如果不存在就新增
-	fileHandle = io.open(path, "w+")
-	if (fileHandle) then
-		--將資料寫入檔案中
-		local data = "江湖小蝦米的戰鬥力是" .. system.getTimer().."個"
-		fileHandle:write(data)
-		--完成之後，別忘了關閉io以節省效能
-		io.close( fileHandle )
-	else
-		print( "找不到可供寫入的檔案" )
-	end
-end
 
-loadFile = function (  )
-	local path = system.pathForFile( fileName, system.DocumentsDirectory )
-	local fileHandle, errorString = io.open(path, "r")
-	if (fileHandle) then
-		--讀取檔案裡頭的所有內容
-		local content = fileHandle:read("*a")
-		--完成之後，別忘了關閉io以節省效能
-		io.close( fileHandle )
-		if (content) then
-			print( "content:".. content )
-			label.text = content
-		else
-			print( "檔案讀取失敗" )
-		end
-	else
-		print( "找不到可供讀取的檔案" )
-	end
-end
 --=======================================================================================
 --呼叫主函式
 --=======================================================================================
