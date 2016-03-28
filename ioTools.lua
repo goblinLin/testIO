@@ -2,6 +2,8 @@
 --
 -- io.lua
 -- 本檔案可以用來將字串存到指定的檔案中，也可讀回來
+-- 1.說明IO的概念
+-- 2.解說如何在Simulator找到DocumentFolder
 -- 
 -- Author: Zack Lin
 -- Time: 2015/4/16
